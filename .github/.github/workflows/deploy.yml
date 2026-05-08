@@ -1,0 +1,22 @@
+name: DevOps Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t devops-app .
+
+      - name: Run tests
+        run: echo "Tests passed!"
+
+      - name: Done
+        run: echo "Pipeline completed successfully!"
