@@ -10,13 +10,18 @@ jobs:
     
     steps:
       - name: Get the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t devops-app .
 
-      - name: Run tests
-        run: echo "Tests passed!"
+      - name: Test app starts correctly
+        run: |
+          docker run -d -p 5000:5000 --name test-app devops-app
+          sleep 3
+          curl http://localhost:5000
+          docker stop test-app
+          docker rm test-app
 
       - name: Done
-        run: echo "Pipeline completed successfully!"
+        run: echo "Pipeline passed - app is healthy!"
